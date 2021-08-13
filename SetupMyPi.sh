@@ -31,8 +31,8 @@ echo "*/15 * * * * sudo -u pi cp -fR /var/chrome_files/* /home/pi/.config/chromi
 echo "@reboot sudo -u pi cp -fR /home/pi/.config/chromium_orig/* /var/chrome_files" >> chromium_cron
 sudo crontab chromium_cron
 
-echo "Setting up DRAM for chromium to watch OTT"
-sudo apt install libwidevinecdm0
+echo "#### Setting up DRAM for chromium to watch OTT ####"
+sudo apt install libwidevinecdm0 -y
 
 echo "Rebooting..."
 sudo reboot -f
