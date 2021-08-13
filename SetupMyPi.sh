@@ -22,14 +22,17 @@ sudo mkdir /var/chrome_files
 sudo chown -R pi:pi /var/chrome_files
 sudo -u pi ln -s /var/chrome_files /home/pi/.config/chromium 
 
-echo "tmpfs /var/chrome_files tmpfs nosuid,nodev 0 0" | sudo tee -a /etc/fstab
-echo "tmpfs /var/log tmpfs nosuid, nodev 0 0" | sudo tee -a /etc/fstab
-echo "tmpfs /var/tmp tmpfs nosuid, nodev 0 0" | sudo tee -a /etc/fstab
+echo "tmpfs /var/chrome_files tmpfs nosuid,nodev,size=128M 0 0" | sudo tee -a /etc/fstab
+echo "tmpfs /var/log tmpfs nosuid,nodev,size=128M 0 0" | sudo tee -a /etc/fstab
+echo "tmpfs /var/tmp tmpfs nosuid,nodev,size=128M 0 0" | sudo tee -a /etc/fstab
 
 sudo crontab -l > chromium_cron
 echo "*/15 * * * * sudo -u pi cp -fR /var/chrome_files/* /home/pi/.config/chromium_orig" >> chromium_cron
 echo "@reboot sudo -u pi cp -fR /home/pi/.config/chromium_orig/* /var/chrome_files" >> chromium_cron
 sudo crontab chromium_cron
+
+echo "Setting up DRAM for chromium to watch OTT"
+sudo apt install libwidevinecdm0
 
 echo "Rebooting..."
 sudo reboot -f
